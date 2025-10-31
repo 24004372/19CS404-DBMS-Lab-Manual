@@ -1,217 +1,197 @@
-# Experiment 5: Subqueries and Views
+# Experiment 3: DML Commands
 
 ## AIM
-To study and implement subqueries and views.
+To study and implement DML (Data Manipulation Language) commands.
 
 ## THEORY
 
-### Subqueries
-A subquery is a query inside another SQL query and is embedded in:
-- WHERE clause
-- HAVING clause
-- FROM clause
-
-**Types:**
-- **Single-row subquery**:
-  Sub queries can also return more than one value. Such results should be made use along with the operators in and any.
-- **Multiple-row subquery**:
-  Here more than one subquery is used. These multiple sub queries are combined by means of ‘and’ & ‘or’ keywords.
-- **Correlated subquery**:
-  A subquery is evaluated once for the entire parent statement whereas a correlated Sub query is evaluated once per row processed by the parent statement.
-
-**Example:**
+### 1. INSERT INTO
+Used to add records into a relation.
+These are three type of INSERT INTO queries which are as
+A)Inserting a single record
+**Syntax (Single Row):**
 ```sql
-SELECT * FROM employees
-WHERE salary > (SELECT AVG(salary) FROM employees);
+INSERT INTO table_name (field_1, field_2, ...) VALUES (value_1, value_2, ...);
 ```
-### Views
-A view is a virtual table based on the result of an SQL SELECT query.
-**Create View:**
+**Syntax (Multiple Rows):**
 ```sql
-CREATE VIEW view_name AS
+INSERT INTO table_name (field_1, field_2, ...) VALUES
+(value_1, value_2, ...),
+(value_3, value_4, ...);
+```
+**Syntax (Insert from another table):**
+```sql
+INSERT INTO table_name SELECT * FROM other_table WHERE condition;
+```
+### 2. UPDATE
+Used to modify records in a relation.
+Syntax:
+```sql
+UPDATE table_name SET column1 = value1, column2 = value2 WHERE condition;
+```
+### 3. DELETE
+Used to delete records from a relation.
+**Syntax (All rows):**
+```sql
+DELETE FROM table_name;
+```
+**Syntax (Specific condition):**
+```sql
+DELETE FROM table_name WHERE condition;
+```
+### 4. SELECT
+Used to retrieve records from a table.
+**Syntax:**
+```sql
 SELECT column1, column2 FROM table_name WHERE condition;
 ```
-**Drop View:**
-```sql
-DROP VIEW view_name;
-```
-
 **Question 1**
 --
-<img width="1068" height="370" alt="image" src="https://github.com/user-attachments/assets/ddffe3a5-7eec-4935-9bd8-b7dfdb154e0d" />
+<img width="1032" height="287" alt="image" src="https://github.com/user-attachments/assets/8df36e91-1bc4-4c7c-88f8-600e5a094784" />
 
 ```sql
-SELECT *
-FROM CUSTOMERS
-WHERE SALARY > 1500;
+UPDATE sales
+SET sell_price = sell_price * 1.05
+WHERE product_id = 15
+  AND sale_date = '2023-01-31';
 ```
 
 **Output:**
 
-<img width="1161" height="529" alt="image" src="https://github.com/user-attachments/assets/fccb709b-8fd7-4acc-a70e-f5e2e398a7cb" />
+<img width="1193" height="453" alt="image" src="https://github.com/user-attachments/assets/ea78ca60-edb1-437d-b74f-7c7fb4ca4a19" />
 
 **Question 2**
 ---
-<img width="1233" height="382" alt="image" src="https://github.com/user-attachments/assets/1e497635-92f2-4f5d-9113-e7c8ab286ef4" />
+<img width="1050" height="544" alt="image" src="https://github.com/user-attachments/assets/bd91a755-a383-47c2-89ee-d0f71f4cdb7b" />
 
 ```sql
-SELECT *
-FROM CUSTOMERS
-WHERE SALARY = 1500;
+UPDATE products
+SET sell_price = ROUND(sell_price * 1.10, 2)
+WHERE supplier_id = 6; 
+
 ```
 
 **Output:**
 
-<img width="1221" height="297" alt="image" src="https://github.com/user-attachments/assets/319e4e0a-4dd4-4750-8e52-12bd8de7ec65" />
+<img width="1217" height="525" alt="image" src="https://github.com/user-attachments/assets/5d5bb903-9bed-4d4f-8e3b-aff638700acb" />
 
 **Question 3**
 ---
-<img width="1268" height="320" alt="image" src="https://github.com/user-attachments/assets/60d8b17f-7b89-4119-846c-7c719971b68d" />
+<img width="1250" height="940" alt="image" src="https://github.com/user-attachments/assets/5ed3e33f-7165-4f5d-ae20-e48bfe40b756" />
 
 ```sql
-SELECT ord_no, purch_amt, ord_date, customer_id, salesman_id
-FROM orders
-WHERE purch_amt > (
-    SELECT AVG(purch_amt)
-    FROM orders
-    WHERE ord_date = '2012-10-10'
-);
+UPDATE employees
+SET salary = ROUND(CASE
+WHEN department_id = 40 THEN salary * 1.25
+WHEN department_id = 90 THEN salary * 1.15
+WHEN department_id = 110 THEN salary * 1.10
+ELSE salary
+END, 0);
 ```
 
 **Output:**
 
-<img width="1127" height="393" alt="image" src="https://github.com/user-attachments/assets/dc772528-0a50-43dd-8136-31e188223be2" />
+<img width="1190" height="457" alt="image" src="https://github.com/user-attachments/assets/d2e929d1-cc11-423c-b465-8d9cb2612351" />
 
 **Question 4**
 ---
-<img width="1314" height="447" alt="image" src="https://github.com/user-attachments/assets/7920a2ad-8d7c-4fd0-976f-d43a6fbaa934" />
+<img width="1048" height="333" alt="image" src="https://github.com/user-attachments/assets/85715249-2a0c-4985-ab29-74270049143e" />
 
 ```sql
-SELECT o.ord_no, o.purch_amt, o.ord_date, o.customer_id, o.salesman_id
-FROM orders o
-JOIN salesman s
-ON o.salesman_id = s.salesman_id
-WHERE s.city = 'New York';
-
+update suppliers 
+set supplier_name ='A1 Suppliers'
+where supplier_id=8;
 ```
 
 **Output:**
 
-<img width="1133" height="391" alt="image" src="https://github.com/user-attachments/assets/fa6f01ee-5856-4075-ba14-41003c73168d" />
+<img width="1206" height="403" alt="image" src="https://github.com/user-attachments/assets/21101c5d-c398-43f2-99f4-62b48dd6b225" />
 
 **Question 5**
 ---
-<img width="1174" height="448" alt="image" src="https://github.com/user-attachments/assets/49e908f3-843d-4626-bd0f-a6a71d6551ed" />
+<img width="1169" height="573" alt="image" src="https://github.com/user-attachments/assets/ece32ff1-3c1a-4ecc-93fd-4e84fe3356a6" />
 
 ```sql
-SELECT customer_id, cust_name, city, grade, salesman_id
-FROM customer
-WHERE customer_id = (
-    (SELECT salesman_id FROM salesman WHERE name = 'Mc Lyon') - 2001
-);
+UPDATE products
+SET reorder_lvl = reorder_lvl * 0.70
+WHERE cost_price > 50
+  AND quantity < 100;
 ```
 
 **Output:**
 
-<img width="1167" height="262" alt="image" src="https://github.com/user-attachments/assets/b8dc617a-5044-4702-89f0-899bec1c1e2f" />
+<img width="1185" height="443" alt="image" src="https://github.com/user-attachments/assets/3ce7f997-fe12-4cd8-8e77-73e1a66c0a1b" />
 
 **Question 6**
 ---
-<img width="1270" height="456" alt="image" src="https://github.com/user-attachments/assets/2c7f2639-4d25-4451-a97a-fd0fdacf5497" />
+<img width="822" height="479" alt="image" src="https://github.com/user-attachments/assets/d50d6f79-1f27-4f4e-b349-4825b7bb88f6" />
 
 ```sql
-SELECT o.ord_no, o.purch_amt, o.ord_date, o.salesman_id
-FROM orders o
-JOIN salesman s
-ON o.salesman_id = s.salesman_id
-WHERE s.commission = (
-    SELECT MAX(commission)
-    FROM salesman
-);
+DELETE FROM doctors
+WHERE doctor_id BETWEEN 2 AND 4;
 ```
 
 **Output:**
 
-<img width="923" height="413" alt="image" src="https://github.com/user-attachments/assets/187e48e4-1e0d-4a25-b405-4ef05908b152" />
+<img width="1198" height="792" alt="image" src="https://github.com/user-attachments/assets/b3968838-baa4-48de-9376-7efffb8b3707" />
 
 **Question 7**
 ---
-<img width="1018" height="308" alt="image" src="https://github.com/user-attachments/assets/7f3d34a0-aca9-4e74-89ab-489bfaba18e0" />
+<img width="1215" height="476" alt="image" src="https://github.com/user-attachments/assets/ba3acfac-c254-4346-82ce-7517c82cd66c" />
 
 ```sql
-SELECT id, name, age, city, income
-FROM Employee
-WHERE age < (
-    SELECT AVG(age)
-    FROM Employee
-    WHERE income > 1000000
-);
+delete from customer
+where  CUST_COUNTRY not in ( 'India', 'USA');
 ```
 
 **Output:**
 
-<img width="1325" height="381" alt="image" src="https://github.com/user-attachments/assets/b3a920ae-2729-4f82-bd86-57f323235776" />
+<img width="1209" height="555" alt="image" src="https://github.com/user-attachments/assets/3830c607-26cd-4be1-b7da-876e1f69df31" />
 
 **Question 8**
 ---
-<img width="1149" height="488" alt="image" src="https://github.com/user-attachments/assets/68d4befa-2ffb-4ca8-8143-1a2c96565210" />
+<img width="1223" height="279" alt="image" src="https://github.com/user-attachments/assets/8dcb7e24-8e3c-4b8c-bf7c-16d4eb8e14c4" />
 
 ```sql
-SELECT name, city
-FROM customer
-WHERE city IN (
-    SELECT city
-    FROM customer
-    WHERE id IN (3,7)
-);
+delete from customer 
+where OPENING_AMT between 4000 and 6000;
 ```
 
 **Output:**
 
-<img width="540" height="435" alt="image" src="https://github.com/user-attachments/assets/40973405-ab12-4231-81e9-be4ffc8b7460" />
+<img width="1184" height="612" alt="image" src="https://github.com/user-attachments/assets/f1793811-8551-4cd3-bf11-f0748caac85c" />
 
 **Question 9**
 ---
-<img width="1297" height="455" alt="image" src="https://github.com/user-attachments/assets/57340e2e-7eea-4694-a717-b754e5b893a1" />
+<img width="1212" height="306" alt="image" src="https://github.com/user-attachments/assets/4a61b39d-3c41-4ca7-8a14-d3ff16d80791" />
 
 ```sql
-SELECT o.ord_no, o.purch_amt, o.ord_date, o.customer_id, o.salesman_id
-FROM orders o
-JOIN salesman s
-ON o.salesman_id = s.salesman_id
-WHERE s.name = 'Paul Adam';
+delete from customer
+where (grade>2 and payment_amt<(select avg(payment_amt)
+from customer))
+or outstanding_amt>8000;
 ```
 
 **Output:**
 
-<img width="1198" height="343" alt="image" src="https://github.com/user-attachments/assets/cbf6d069-2e71-4310-95f2-fc6b16431fee" />
+<img width="1183" height="659" alt="image" src="https://github.com/user-attachments/assets/76daa8f9-f73f-4d8f-8124-af3b40bce3c5" />
 
 **Question 10**
 ---
-<img width="1237" height="552" alt="image" src="https://github.com/user-attachments/assets/5023b46a-0b89-43d6-bfe6-c6dee7f5266f" />
+<img width="1207" height="301" alt="image" src="https://github.com/user-attachments/assets/85360bfc-eccb-4a75-8348-d0b1fad0dfa3" />
 
 ```sql
-SELECT
-    o.ord_no,
-    o.purch_amt,
-    o.ord_date,
-    o.customer_id,
-    o.salesman_id
-FROM
-    ORDERS o
-INNER JOIN
-    SALESMAN s ON o.salesman_id = s.salesman_id
-WHERE
-    s.city='New York';
+delete from customer
+where GRADE >=2;
 ```
 
 **Output:**
 
-<img width="1240" height="444" alt="image" src="https://github.com/user-attachments/assets/7d4bbd10-e0a4-4c2f-9031-2a1cb80d8139" />
+<img width="693" height="534" alt="image" src="https://github.com/user-attachments/assets/4bc3fa7c-8139-429a-b9cb-b883857a54b7" />
 
 ## Grade
-<img width="1370" height="67" alt="image" src="https://github.com/user-attachments/assets/eb4f358a-1226-4fb7-b8dc-a0dc4b5ffe5e" />
+<img width="1350" height="70" alt="image" src="https://github.com/user-attachments/assets/2cbe5762-511e-4f8c-bcde-226f1ab63609" />
 
 
 ## RESULT
-Thus, the SQL queries to implement subqueries and views have been executed successfully.
+Thus, the SQL queries to implement DML commands have been executed successfully.
