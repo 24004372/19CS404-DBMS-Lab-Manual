@@ -190,7 +190,8 @@ where GRADE >=2;
 <img width="693" height="534" alt="image" src="https://github.com/user-attachments/assets/4bc3fa7c-8139-429a-b9cb-b883857a54b7" />
 
 ## Grade
-<img width="1350" height="70" alt="image" src="https://github.com/user-attachments/assets/2cbe5762-511e-4f8c-bcde-226f1ab63609" />
+<img width="1476" height="132" alt="image" src="https://github.com/user-attachments/assets/2426770a-7096-41a3-b661-ef1186548d4f" />
+
 
 
 ## RESULT
